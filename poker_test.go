@@ -3,6 +3,7 @@ package poker
 import (
 	"fmt"
 	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -384,5 +385,31 @@ func BenchmarkPoker(b *testing.B) {
 				}
 			}
 		})
+	}
+}
+
+func TestPokerStatistics(t *testing.T) {
+	cycles := 1000000
+	stats := make(map[HandRank]int)
+
+	for i := 0; i < cycles; i++ {
+		hands, _ := deal(1)
+		hand := hands[0]
+		hand.score()
+		stats[hand.handRank]++
+	}
+
+	keys := make([]HandRank, 0, len(stats))
+	for k := range stats {
+		keys = append(keys, k)
+	}
+
+	sort.Slice(keys, func(i, j int) bool {
+		return stats[keys[i]] < stats[keys[j]]
+	})
+
+	for _, k := range keys {
+		count := stats[k]
+		fmt.Printf("%-15s\t %-8d\t (%.4f%%)\n", k, count, float64(count)/float64(cycles)*100)
 	}
 }
