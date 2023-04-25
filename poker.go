@@ -79,14 +79,14 @@ func poker(numHands int) error {
 		fmt.Println(err)
 		return err
 	}
-	for _, h := range hands {
-		fmt.Printf("%s\n", h.String())
-	}
-	winners := play(hands)
-	fmt.Printf("%d Winner(s):\n", len(winners))
-	for _, w := range winners {
-		fmt.Printf("%s: %s, %s\n", w.String(), w.handRank, w.ranks)
-	}
+	//for _, h := range hands {
+	//	fmt.Printf("%s\n", h.String())
+	//}
+	_ = play(hands)
+	//fmt.Printf("%d Winner(s):\n", len(winners))
+	//for _, w := range winners {
+	//	fmt.Printf("%s: %s, %s\n", w.String(), w.handRank, w.ranks)
+	//}
 
 	return nil
 }

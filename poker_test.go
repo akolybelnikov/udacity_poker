@@ -1,6 +1,7 @@
 package poker
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -361,6 +362,26 @@ func Test_poker(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := poker(tt.args.numHands); (err != nil) != tt.wantErr {
 				t.Errorf("poker() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func BenchmarkPoker(b *testing.B) {
+	nums := []struct {
+		input int
+	}{
+		{input: 2},
+		{input: 5},
+		{input: 7},
+		{input: 10},
+	}
+	for _, num := range nums {
+		b.Run(fmt.Sprintf("poker %d", num.input), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				if err := poker(num.input); err != nil {
+					b.Error(err)
+				}
 			}
 		})
 	}
